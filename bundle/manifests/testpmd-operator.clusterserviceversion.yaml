@@ -130,7 +130,7 @@ spec:
                 env:
                 - name: ANSIBLE_GATHERING
                   value: explicit
-                image: quay.io/rh-nfv-int/testpmd-operator:v0.2.4
+                image: registry.connect.redhat.com/nfv-example-cnf/example-cnf-operator@sha256:e6f7ec9c7fb9882c51104d11050243a8f95b5b56d74d533c62dd1292ebb81bfb
                 imagePullPolicy: IfNotPresent
                 livenessProbe:
                   httpGet:
