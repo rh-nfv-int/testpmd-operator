@@ -3,10 +3,11 @@ VERSION ?= 0.2.4
 REGISTRY ?= quay.io
 ORG ?= rh-nfv-int
 DEFAULT_CHANNEL ?= alpha
-OPERATOR_NAME ?= testpmd-operator
 
 CONTAINER_CLI ?= podman
 CLUSTER_CLI ?= oc
+
+OPERATOR_NAME = testpmd-operator
 
 # Default bundle image tag
 BUNDLE_IMG ?= $(REGISTRY)/$(ORG)/$(OPERATOR_NAME)-bundle:v$(VERSION)
