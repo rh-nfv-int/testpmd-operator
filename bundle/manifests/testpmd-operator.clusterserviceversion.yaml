@@ -130,7 +130,7 @@ spec:
                 env:
                 - name: ANSIBLE_GATHERING
                   value: explicit
-                image: registry.connect.redhat.com/nfv-example-cnf/example-cnf-operator@sha256:e6f7ec9c7fb9882c51104d11050243a8f95b5b56d74d533c62dd1292ebb81bfb
+                image: registry.connect.redhat.com/nfv-example-cnf/example-cnf-operator@sha256:2ae254e28c47c01ae0bc330af5692d97161061a3f8f563329bccce0f232aa04c
                 imagePullPolicy: IfNotPresent
                 livenessProbe:
                   httpGet:
