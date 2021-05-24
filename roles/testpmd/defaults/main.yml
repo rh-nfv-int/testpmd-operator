@@ -1,13 +1,12 @@
 ---
 registry: quay.io
 org: rh-nfv-int
-version: v0.2.0
 image_pull_policy: IfNotPresent
 privileged: false
 network_defintions: ""
 network_resources: {}
 environments: {}
-image_testpmd: registry.redhat.io/openshift4/dpdk-base-rhel8:v4.6
+image_testpmd: registry.redhat.io/openshift4/dpdk-base-rhel8@sha256:7a146c795271a45804209dcf3af4792498117d638c2eb4cfd69fe4cbf61d81eb
 
 # mac workaround variables
 mac_workaround_enable: false

@@ -2,12 +2,7 @@
 - set_fact:
     network_resources: {}
     network_name_list: []
-    mac_workaround_image: "{{ registry }}/{{ org }}/testpmd-container-app-mac:{{ version }}"
-
-- name: use centos image if image_testpmd is undefined
-  set_fact:
-    image_testpmd: "{{ registry }}/{{ org }}/testpmd-container-app-testpmd:{{ version }}"
-  when: image_testpmd is undefined
+    mac_workaround_image: quay.io/rh-nfv-int/testpmd-container-app-mac@sha256:edc9bb4724d792d415df492aea1768d4127f7fe412d99e0bee8918a8008fcbce # v0.2.0
 
 - name: Validate the CPUs and forwarding cores
   fail:
