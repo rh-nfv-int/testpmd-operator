@@ -23,7 +23,7 @@ BUNDLE_METADATA_OPTS ?= $(BUNDLE_CHANNELS) $(BUNDLE_DEFAULT_CHANNEL)
 # Image URL to use all building/pushing image targets
 IMG ?= $(REGISTRY)/$(ORG)/$(OPERATOR_NAME):v$(VERSION)
 
-all: docker-build bundle bundle-build
+all: docker-build bundle-build
 
 # Run against the configured Kubernetes cluster in ~/.kube/config
 run: ansible-operator
