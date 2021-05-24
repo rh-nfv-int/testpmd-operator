@@ -6,7 +6,8 @@ privileged: false
 network_defintions: ""
 network_resources: {}
 environments: {}
-image_testpmd: registry.redhat.io/openshift4/dpdk-base-rhel8@sha256:7a146c795271a45804209dcf3af4792498117d638c2eb4cfd69fe4cbf61d81eb
+image_testpmd: registry.redhat.io/openshift4/dpdk-base-rhel8@sha256:7a146c795271a45804209dcf3af4792498117d638c2eb4cfd69fe4cbf61d81eb #v4.6
+￼```
 
 # mac workaround variables
 mac_workaround_enable: false
