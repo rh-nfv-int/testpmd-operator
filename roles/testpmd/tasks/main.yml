@@ -2,7 +2,6 @@
 - set_fact:
     network_resources: {}
     network_name_list: []
-    mac_workaround_image: quay.io/rh-nfv-int/testpmd-container-app-mac@sha256:edc9bb4724d792d415df492aea1768d4127f7fe412d99e0bee8918a8008fcbce # v0.2.0
 
 - name: Validate the CPUs and forwarding cores
   fail:
