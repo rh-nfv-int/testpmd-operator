@@ -1,6 +1,4 @@
 ---
-registry: quay.io
-org: rh-nfv-int
 image_pull_policy: IfNotPresent
 privileged: false
 network_defintions: ""
