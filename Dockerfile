@@ -1,4 +1,4 @@
-FROM quay.io/operator-framework/ansible-operator:v1.5.0
+FROM quay.io/operator-framework/ansible-operator:v1.7.2
 
 MAINTAINER skramaja@redhat.com
 
@@ -13,8 +13,7 @@ LABEL name="NFV Example CNF Application Opertor" \
 COPY licenses /licenses
 
 USER root
-RUN yum -y update-minimal --setopt=tsflags=nodocs \
-        --security --sec-severity=Important --sec-severity=Critical
+RUN yum -y update
 USER ansible
 
 COPY requirements.yml ${HOME}/requirements.yml
