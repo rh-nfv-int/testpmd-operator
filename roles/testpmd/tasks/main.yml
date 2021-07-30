@@ -36,9 +36,17 @@
 
 - name: "Parse network {{ network_item }}"
   include_tasks: network-parse.yaml
+  when: networks|default([])|length > 0
   loop: "{{ networks }}"
   loop_control:
     loop_var: network_item
+
+- name: "Parse resources if defined and when sriov network is not defined"
+  set_fact: "{{ network_resources | combine({item.name: item.count}) }}"
+  loop: "{{ resources }}"
+  when:
+    - networks|default([])|length == 0
+    - resources|default([])|length > 0
 
 - name: MAC workaround block
   when: mac_workaround_enable|bool
