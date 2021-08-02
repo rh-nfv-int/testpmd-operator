@@ -27,9 +27,9 @@ metadata:
         }
       ]
     capabilities: Basic Install
-    operators.operatorframework.io/builder: operator-sdk-v1.4.0+git
+    operators.operatorframework.io/builder: operator-sdk-v1.7.1+git
     operators.operatorframework.io/project_layout: ansible.sdk.operatorframework.io/v1
-  name: testpmd-operator.v0.2.5
+  name: testpmd-operator.v0.2.8
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -130,7 +130,7 @@ spec:
                 env:
                 - name: ANSIBLE_GATHERING
                   value: explicit
-                image: quay.io/rh-nfv-int/testpmd-operator@sha256:a725658acee30dd0d3782a2f4efee9cb949d10cf99dfd56250a8b7be34330bc7
+                image: quay.io/krsacme/testpmd-operator@sha256:5fde384066b8938f9f49fdb3bec1c88ac3df11234e9759d7c2b1108160d41306
                 imagePullPolicy: IfNotPresent
                 livenessProbe:
                   httpGet:
@@ -146,6 +146,10 @@ spec:
                   initialDelaySeconds: 5
                   periodSeconds: 10
                 resources: {}
+                securityContext:
+                  allowPrivilegeEscalation: false
+              securityContext:
+                runAsNonRoot: true
               serviceAccountName: testpmd-operator-controller-manager
               terminationGracePeriodSeconds: 10
       permissions:
@@ -169,6 +173,12 @@ spec:
           verbs:
           - create
           - patch
+        - apiGroups:
+          - coordination.k8s.io
+          resources:
+          - leases
+          verbs:
+          - get
         serviceAccountName: testpmd-operator-controller-manager
     strategy: deployment
   installModes:
@@ -193,4 +203,10 @@ spec:
   maturity: alpha
   provider:
     name: Red Hat
-  version: 0.2.5
+  version: 0.2.8
+  relatedImages:
+    - name: testpmd-app
+      image: registry.redhat.io/openshift4/dpdk-base-rhel8@sha256:9af03fb4c5ae1c51f71ad04f02fee8e9458aa73c3f4324e984c731d07896c4e1
+    - name: testpmd-container-app-mac
+      image: quay.io/rh-nfv-int/testpmd-container-app-mac@sha256:edc9bb4724d792d415df492aea1768d4127f7fe412d99e0bee8918a8008fcbce
+   
