@@ -3,4 +3,4 @@ bin
 *.patch
 *sync.sh
 build.sh
-bundle/
+bundle*
