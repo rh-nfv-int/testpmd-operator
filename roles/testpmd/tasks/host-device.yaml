@@ -1,0 +1,17 @@
+---
+- name: "Create network name list (resource list)"
+  set_fact:
+    network_name_list: "{{ network_name_list + [ network_item.name ] }}"
+
+- name: "Get NetworkAttachmentDefinition for network {{ network_item.name }}"
+  set_fact:
+    net_def: "{{ lookup('k8s', kind='NetworkAttachmentDefinition', namespace=ansible_operator_meta.namespace, resource_name=network_item.name) }}"
+  failed_when: net_def|length == 0
+
+- name: "Get CNI spec data from NetworkAttachmentDefinition"
+  set_fact:
+    cni_config: "{{ net_def['spec']['config'] }}"
+
+- name: "Get PCI id from cni config"
+  set_fact:
+    pci_list: "{{ pci_list + [ cni_config.pciBusId ] }}"

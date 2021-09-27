@@ -95,6 +95,8 @@ spec:
           value: "{{ eth_peer }}"
         - name: socket_mem
           value: "{{ socket_memory }}"
+        - name: forwarding_cores
+          value: "{{ forwarding_cores }}"
         - name: memory_channels
           value: "{{ memory_channels }}"
         - name: rx_queues
@@ -105,6 +107,10 @@ spec:
           value: "{{ rx_descriptors }}"
         - name: tx_descriptors
           value: "{{ tx_descriptors }}"
+{% if pci_list|length > 0 %}
+        - name: PCI_LIST
+          value: "{{ pci_list|join(',') }}"
+{% endif %}
 {% for key, value in environments.items() %}
         - name: {{ key }}
           value: "{{ value }}"

@@ -2,10 +2,11 @@
 - set_fact:
     network_resources: {}
     network_name_list: []
+    pci_list: []
 
 - name: Validate the CPUs and forwarding cores
   fail:
-    msg: "{{ forwarding_cores }} should be lesser than {{ cpu }}"
+    msg: "forwarding cores ({{ forwarding_cores }}) should be lesser than requested cpu({{ cpu }})"
   when: forwarding_cores|int >= cpu|int
 
 - name: print network list
@@ -42,9 +43,18 @@
         run: |
           {{ lookup('file', 'run') }}
 
-- name: "Parse network"
+- name: "Parse network for sriov cni"
   include_tasks: network-parse.yaml
-  when: networks|default([])|length > 0
+  when:
+  - networks|default([])|length > 0
+  - not skip_resource|bool
+  loop: "{{ networks }}"
+  loop_control:
+    loop_var: network_item
+
+- name: "Parse network for host-device plugin"
+  include_tasks: host-device.yaml
+  when: networks|length > 0 and skip_resource|bool
   loop: "{{ networks }}"
   loop_control:
     loop_var: network_item

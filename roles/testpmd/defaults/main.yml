@@ -39,3 +39,4 @@ resources: []
 
 ethpeer_maclist: []
 skip_annot: false
+skip_resource: false

@@ -5,35 +5,44 @@ set -ex
 echo "Running testpmd"
 
 RUN_APP=${run_app:=1}
+PCI_LIST=${PCI_LIST:=""}
+MODE=${MODE:-"fwd"}
 
 LOG_DIR="/var/log/testpmd"
 [ -d $LOG_DIR ] || mkdir -p $LOG_DIR
 rm -rf /var/log/testpmd/*
 
-MODE=${MODE:-"fwd"}
-
-if [ -z ${NETWORK_NAME_LIST} ]; then
-    echo "ERROR: NETWORK_NAME_LIST is required."
-    exit 1
-fi
-
 PCI=""
-IFS=',' read -r -a NETWORK_ARRAY <<< "$NETWORK_NAME_LIST"
-TESTPMD_ENV="/var/lib/testpmd/env.txt"
-echo "" > $TESTPMD_ENV
-for item in "${NETWORK_ARRAY[@]}"; do
-    IFS='/' read -r -a RES_ARRAY <<< "$item"
-    NAME="PCIDEVICE_OPENSHIFT_IO_${RES_ARRAY[1]^^}"
-    if [ -z ${!NAME} ]; then
-        echo "Could not find ${NAME} with PCI address, exiting"
+if [ ! -z ${PCI_LIST} ]; then
+    # PCI List provided as environment variable
+    IFS=',' read -r -a PCI_ARRAY <<< "${PCI_LIST}"
+    for item in "${PCI_ARRAY[@]}"; do
+        PCI=" -w ${item} "
+    done
+else
+    # Get PCI List from NETWORK_NAME_LIST environment variable
+    if [ -z ${NETWORK_NAME_LIST} ]; then
+        echo "ERROR: NETWORK_NAME_LIST is required."
         exit 1
     fi
-    echo "${NAME}=${!NAME}" >> $TESTPMD_ENV
-    IFS=',' read -r -a PCI_ARRAY <<< "${!NAME}"
-    for pci_item in "${PCI_ARRAY[@]}"; do
-        PCI+=" -w ${pci_item} "
+
+    IFS=',' read -r -a NETWORK_ARRAY <<< "$NETWORK_NAME_LIST"
+    TESTPMD_ENV="/var/lib/testpmd/env.txt"
+    echo "" > $TESTPMD_ENV
+    for item in "${NETWORK_ARRAY[@]}"; do
+        IFS='/' read -r -a RES_ARRAY <<< "$item"
+        NAME="PCIDEVICE_OPENSHIFT_IO_${RES_ARRAY[1]^^}"
+        if [ -z ${!NAME} ]; then
+            echo "Could not find ${NAME} with PCI address, exiting"
+            exit 1
+        fi
+        echo "${NAME}=${!NAME}" >> $TESTPMD_ENV
+        IFS=',' read -r -a PCI_ARRAY <<< "${!NAME}"
+        for pci_item in "${PCI_ARRAY[@]}"; do
+            PCI+=" -w ${pci_item} "
+        done
     done
-done
+fi
 
 LCORES=$(cat /sys/fs/cgroup/cpuset/cpuset.cpus)
 if [ -z $LCORES ]; then
