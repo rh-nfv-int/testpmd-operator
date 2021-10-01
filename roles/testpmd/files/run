@@ -17,7 +17,7 @@ if [ ! -z ${PCI_LIST} ]; then
     # PCI List provided as environment variable
     IFS=',' read -r -a PCI_ARRAY <<< "${PCI_LIST}"
     for item in "${PCI_ARRAY[@]}"; do
-        PCI=" -w ${item} "
+        PCI+=" -w ${item} "
     done
 else
     # Get PCI List from NETWORK_NAME_LIST environment variable
