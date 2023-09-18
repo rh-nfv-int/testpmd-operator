@@ -17,7 +17,8 @@
 - set_fact:
     network_port_count: "{{ network_item.count|default(1) }}"
 
-- set_fact:
+- name: "set resource name from the networkattachmentdefinition's annotations"
+  set_fact:
     network_resource_name: "{{ net_def['metadata']['annotations']['k8s.v1.cni.cncf.io/resourceName'] }}"
 
 - set_fact:

@@ -13,15 +13,14 @@
       name: testpmd
     vars:
       privileged: true
-      image: jumphost.cluster5.dfwt5g.lab:5000/nfv-example-cnf/testpmd-container-app:v0.1.0
-      image_pull_policy: Always
+      image: registry.redhat.io/openshift4/dpdk-base-rhel8:v4.6
       ethpeer_maclist:
-        - 3c:fd:fe:79:2a:a0
-        - 3c:fd:fe:79:2a:a1
+        - e4:43:4b:4a:33:82
+        - e4:43:4b:4a:33:83
       size: 1
       networks:
-        - name: vfdpdk1
-          count: 2
-      mac_workaround_enable: true
-      mac_workaround_image: "jumphost.cluster5.dfwt5g.lab:5000/nfv-example-cnf/testpmd-container-app-mac-fix:v0.1.1"
-      mac_workaround_version: "4.4"
+        - name: vhost1
+          count: 1
+        - name: vhost2
+          count: 1
+      skip_resource: true
